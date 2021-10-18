@@ -1,0 +1,70 @@
+package com.tourofheroes.tourofheroes.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
+import com.tourofheroes.tourofheroes.services.HeroService;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/heroes")
+public class HeroesController {
+	
+	@Autowired
+	private HeroService heroService;
+	
+	
+	@GetMapping("/hello")
+	public String sayHello() {
+		return "Hola";
+	}
+	
+	
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<List<HeroDTO>> getAllHeroes(){
+		return ResponseEntity.ok(heroService.getAll());
+	}
+	
+
+	
+	@GetMapping("/get")
+	public ResponseEntity<HeroDTO> getHero(@RequestParam Integer id){
+		HeroDTO heroDTO = heroService.getHero(id);
+		if(heroDTO == null)
+			return new ResponseEntity<>(null, 
+								HttpStatus.BAD_REQUEST);
+		else
+			return ResponseEntity.ok(heroDTO);
+	}
+	
+	
+	@PostMapping("/newHero")
+	public void addNewHero() {
+		
+	}
+	
+	@PatchMapping("/modifyName/{id}")
+	public ResponseEntity<String> modifyName(@PathVariable Integer id, 
+									@RequestBody HeroDTO heroDTO) {
+		
+		if(heroService.updateHeroName(id, heroDTO))
+			return ResponseEntity.ok("Updated Succesfully");
+		else
+			return new ResponseEntity<>("Error updating", HttpStatus.BAD_REQUEST);
+	}
+}
+
