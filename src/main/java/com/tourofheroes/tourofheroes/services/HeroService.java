@@ -55,4 +55,18 @@ public class HeroService {
 			heroRepo.save(hero);
 		return true;
 	}
+	
+	
+	public HeroDTO newHero(HeroDTO heroDto) {
+		heroRepo.save(new Hero(heroDto.getName()));
+		return heroDto;
+	}
+	
+	public boolean deleteHero(Integer id) {
+		Optional<Hero> heroOpt = heroRepo.findById(id);
+		if(heroOpt.isEmpty())
+			return false;
+		heroRepo.delete(heroOpt.get());
+		return true;
+	}
 }

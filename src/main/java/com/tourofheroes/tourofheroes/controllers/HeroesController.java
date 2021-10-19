@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,8 +54,9 @@ public class HeroesController {
 	
 	
 	@PostMapping("/newHero")
-	public void addNewHero() {
-		
+	public ResponseEntity<HeroDTO> addNewHero(@RequestBody HeroDTO heroDto) {
+		System.out.println(heroDto.getName() + "  " +  heroDto.getName());
+		return ResponseEntity.ok(heroService.newHero(heroDto));
 	}
 	
 	@PatchMapping("/modifyName/{id}")
@@ -65,6 +67,16 @@ public class HeroesController {
 			return ResponseEntity.ok("Updated Succesfully");
 		else
 			return new ResponseEntity<>("Error updating", HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@DeleteMapping("/deleteHero/{id}")
+	public ResponseEntity<String> deleteHero(@PathVariable Integer id){
+		System.out.println("DELETING");
+		if(heroService.deleteHero(id))
+			return ResponseEntity.ok("Deletion successfully");
+		else
+			return new ResponseEntity<String>("Deletion went wrong", HttpStatus.BAD_REQUEST);
 	}
 }
 
