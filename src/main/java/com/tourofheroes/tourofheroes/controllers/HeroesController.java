@@ -42,9 +42,10 @@ public class HeroesController {
 		HeroDTO heroDTO = heroService.getHero(id);
 		if(heroDTO == null)
 			return new ResponseEntity<>(null, 
-								HttpStatus.BAD_REQUEST);
-		else
-			return ResponseEntity.ok(heroDTO);
+								HttpStatus.NO_CONTENT);
+		
+		System.out.println(heroDTO.toString());
+		return ResponseEntity.ok(heroDTO);
 	}
 	
 	

@@ -46,6 +46,14 @@ public class Hero {
 		this.power = power;
 	}
 	
+	public Power getPower() {
+		return power;
+	}
+
+	public void setPower(Power power) {
+		this.power = power;
+	}
+
 	public Integer getId() {
 		return id;
 	}

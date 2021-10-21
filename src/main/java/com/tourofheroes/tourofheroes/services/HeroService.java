@@ -12,14 +12,17 @@ import org.springframework.util.StringUtils;
 import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
 import com.tourofheroes.tourofheroes.model.Hero;
 import com.tourofheroes.tourofheroes.repositories.HeroRepository;
+import com.tourofheroes.tourofheroes.repositories.PowerRepository;
 
 @Service
 public class HeroService {
 	@Autowired
 	private HeroRepository heroRepo;
 	@Autowired
+	private PowerRepository powerRepo;
+	@Autowired
 	private ModelMapper mapper;
-	
+
 	
 	
 	/*
@@ -36,11 +39,14 @@ public class HeroService {
 	
 	public HeroDTO getHero(Integer id) {
 		Optional<Hero> heroOpt = heroRepo.findById(id);
-		if(heroOpt.isPresent()) {
-			Hero hero = heroOpt.get();
-			return mapper.map(hero, HeroDTO.class);
-		}
-		return null;
+		if(heroOpt.isEmpty()) 
+			return null;
+			
+		Hero hero = heroOpt.get();
+//		System.out.println(hero.getPower().getName());
+		return mapper.map(hero, HeroDTO.class);
+	
+		
 	}
 	
 	public boolean updateHeroName(Integer id, HeroDTO heroDTO) {
@@ -63,7 +69,12 @@ public class HeroService {
 	
 	
 	public HeroDTO newHero(HeroDTO heroDto) {
-		heroRepo.save(new Hero(heroDto.getName()));
+		
+		Hero hero = new Hero(heroDto.getName());
+		// Adding the power if it has 
+		if(StringUtils.hasLength(heroDto.getPowerName())) 
+			hero.setPower(powerRepo.findByName(heroDto.getPowerName()).get());
+		heroRepo.save(hero);
 		return heroDto;
 	}
 	

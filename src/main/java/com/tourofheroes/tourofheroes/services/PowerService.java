@@ -30,6 +30,12 @@ public class PowerService {
 		return powersDto;
 	}
 	
+	public PowerDTO findByName(String name) {
+		Optional<Power> powerOpt = powerRepo.findByName(name);
+		if(powerOpt.isEmpty())
+			return null;
+		return mapper.map(powerOpt.get(), PowerDTO.class);
+	}
 	
 	public PowerDTO findById(Integer id) {
 		Optional<Power> powerOpt = powerRepo.findById(id);
