@@ -27,19 +27,14 @@ public class HeroesController {
 	@Autowired
 	private HeroService heroService;
 	
-	
-	@GetMapping("/hello")
-	public String sayHello() {
-		return "Hola";
-	}
-	
-	
+	/*
+	 * Basic CRUD
+	 */
 	
 	@GetMapping("/getAll")
 	public ResponseEntity<List<HeroDTO>> getAllHeroes(){
 		return ResponseEntity.ok(heroService.getAll());
 	}
-	
 
 	
 	@GetMapping("/get")
@@ -72,11 +67,21 @@ public class HeroesController {
 	
 	@DeleteMapping("/deleteHero/{id}")
 	public ResponseEntity<String> deleteHero(@PathVariable Integer id){
-		System.out.println("DELETING");
 		if(heroService.deleteHero(id))
 			return ResponseEntity.ok("Deletion successfully");
 		else
 			return new ResponseEntity<String>("Deletion went wrong", HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	/*
+	 * Other operations
+	 */
+	
+	@GetMapping("/findByName")
+	public ResponseEntity<List<HeroDTO>> findByName(@RequestParam String name){
+		System.out.println(name);
+		return ResponseEntity.ok(heroService.findByPartOfName(name));
 	}
 }
 

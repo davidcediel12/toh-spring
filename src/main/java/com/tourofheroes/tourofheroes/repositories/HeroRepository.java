@@ -13,4 +13,5 @@ import com.tourofheroes.tourofheroes.model.Hero;
 public interface HeroRepository extends JpaRepository<Hero, Integer>{
 	
 	public List<Hero> findByOrderByIdAsc();
+	public List<Hero> findByNameStartsWithIgnoreCase(String name);
 }

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +24,11 @@ public class Hero {
 	private String name;
 	
 	
+	@ManyToOne
+	@JoinColumn(name = "POWER_ID", referencedColumnName = "POWER_ID")
+	private Power power;
+	
+	
 	public Hero() {}
 	
 	public Hero(String name) {
@@ -29,7 +36,14 @@ public class Hero {
 	}
 	
 	public Hero(Integer id, String name) {
+		this.id = id;
 		this.name = name;
+	}
+	
+	public Hero(Integer id, String name, Power power) {
+		this.id = id;
+		this.name = name;
+		this.power = power;
 	}
 	
 	public Integer getId() {

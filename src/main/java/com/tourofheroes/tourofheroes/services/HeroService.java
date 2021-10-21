@@ -20,6 +20,11 @@ public class HeroService {
 	@Autowired
 	private ModelMapper mapper;
 	
+	
+	
+	/*
+	 * Basic CRUD
+	 */
 	public List<HeroDTO> getAll() {
 //		List<Hero> heroes = heroRepo.findAll();
 		List<Hero> heroes = heroRepo.findByOrderByIdAsc();
@@ -68,5 +73,18 @@ public class HeroService {
 			return false;
 		heroRepo.delete(heroOpt.get());
 		return true;
+	}
+	
+	
+	/*
+	 * Other Operations
+	 */
+	
+	public List<HeroDTO> findByPartOfName(String name) {
+		List<Hero> heroes = heroRepo.findByNameStartsWithIgnoreCase(name);
+		List<HeroDTO> heroesDto = new ArrayList<HeroDTO>(); 
+		for(Hero hero : heroes)
+			heroesDto.add(mapper.map(hero, HeroDTO.class));
+		return heroesDto;
 	}
 }
