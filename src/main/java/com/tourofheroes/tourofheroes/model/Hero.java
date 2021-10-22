@@ -28,24 +28,40 @@ public class Hero {
 	@JoinColumn(name = "POWER_ID", referencedColumnName = "POWER_ID")
 	private Power power;
 	
+	// FUTURE IMPROVEMENT: MAKE THIS COLUMN A JOIN COLUMN OF THIS TABLE
+	@Column(name = "ALTER_EGO", length = 30, nullable = false)
+	private String alterEgo;
 	
 	public Hero() {}
 	
-	public Hero(String name) {
+	public Hero(String name, String alterEgo) {
 		this.name = name;
+		this.alterEgo = alterEgo;
 	}
 	
-	public Hero(Integer id, String name) {
+	public Hero(Integer id, String name, String alterEgo) {
 		this.id = id;
 		this.name = name;
+		this.alterEgo = alterEgo;
 	}
 	
-	public Hero(Integer id, String name, Power power) {
+	public Hero(Integer id, String name, String alterEgo, Power power) {
 		this.id = id;
 		this.name = name;
+		this.alterEgo = alterEgo;
 		this.power = power;
 	}
 	
+	
+	
+	public String getAlterEgo() {
+		return alterEgo;
+	}
+
+	public void setAlterEgo(String alterEgo) {
+		this.alterEgo = alterEgo;
+	}
+
 	public Power getPower() {
 		return power;
 	}

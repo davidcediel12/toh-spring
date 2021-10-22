@@ -43,7 +43,7 @@ public class HeroService {
 			return null;
 			
 		Hero hero = heroOpt.get();
-//		System.out.println(hero.getPower().getName());
+		System.out.println("HELLO");
 		return mapper.map(hero, HeroDTO.class);
 	
 		
@@ -70,7 +70,7 @@ public class HeroService {
 	
 	public HeroDTO newHero(HeroDTO heroDto) {
 		
-		Hero hero = new Hero(heroDto.getName());
+		Hero hero = new Hero(heroDto.getName(), heroDto.getAlterEgo());
 		// Adding the power if it has 
 		if(StringUtils.hasLength(heroDto.getPowerName())) 
 			hero.setPower(powerRepo.findByName(heroDto.getPowerName()).get());
