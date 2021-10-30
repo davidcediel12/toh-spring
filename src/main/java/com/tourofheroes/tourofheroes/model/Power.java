@@ -9,16 +9,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "POWERS")
 public class Power {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQPOWER")
-	@SequenceGenerator(name="SEQPOWER", sequenceName="SEQPOWER", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="idPowerGenerator")
+	@GenericGenerator(
+	        name = "idPowerGenerator",
+	        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+	        parameters = {
+	                @Parameter(name = "sequence_name", value = "WIKI_SEQUENCE"),
+	                @Parameter(name = "initial_value", value = "1000"),
+	                @Parameter(name = "increment_size", value = "1")
+	        }
+	)
 	@Column(name = "POWER_ID")
 	private Integer id;
 	

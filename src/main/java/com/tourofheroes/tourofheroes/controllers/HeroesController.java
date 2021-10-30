@@ -20,7 +20,7 @@ import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
 import com.tourofheroes.tourofheroes.services.HeroService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",  exposedHeaders = "**")
 @RequestMapping("/heroes")
 public class HeroesController {
 	
@@ -73,7 +73,6 @@ public class HeroesController {
 		else
 			return new ResponseEntity<String>("Deletion went wrong", HttpStatus.BAD_REQUEST);
 	}
-	
 	
 	/*
 	 * Other operations

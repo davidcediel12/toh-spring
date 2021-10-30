@@ -7,16 +7,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "HEROES")
 public class Hero {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQUENCE")
-	@SequenceGenerator(name="IDSEQUENCE", sequenceName="IDSEQUENCE", allocationSize=1)
-//	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="idHeroGenerator")
+	@GenericGenerator(
+	        name = "idHeroGenerator",
+	        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+	        parameters = {
+	                @Parameter(name = "sequence_name", value = "WIKI_SEQUENCE"),
+	                @Parameter(name = "initial_value", value = "1000"),
+	                @Parameter(name = "increment_size", value = "1")
+	        }
+	)
 	@Column(name = "ID")
 	private Integer id;
 	
@@ -29,7 +38,7 @@ public class Hero {
 	private Power power;
 	
 	// FUTURE IMPROVEMENT: MAKE THIS COLUMN A JOIN COLUMN OF THIS TABLE
-	@Column(name = "ALTER_EGO", length = 30, nullable = false)
+	@Column(name = "ALTER_EGO", length = 30, nullable = true)
 	private String alterEgo;
 	
 	public Hero() {}
