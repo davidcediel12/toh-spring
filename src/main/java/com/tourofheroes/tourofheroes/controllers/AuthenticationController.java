@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import com.tourofheroes.tourofheroes.services.AuthUsersService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 	
 	
@@ -38,12 +37,6 @@ public class AuthenticationController {
 	@Autowired
 	private JWTUtil jwtUtil;
 	
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	
-	
 	@PostMapping("/authenticate")
 	public ResponseEntity<AuthenticationResponse> authenticate(
 			@RequestBody AuthenticationRequest auth) {
@@ -53,9 +46,6 @@ public class AuthenticationController {
 			 * Si le enviamos unas credenciales que estan malas, arrojara el 
 			 * error
 			 */
-			// No se si sea el lugar para codificar la password
-//			System.out.println(auth.getPassword());
-//			auth.setPassword(passwordEncoder.encode(auth.getPassword()));
 			System.out.println(auth.getPassword());
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.getUsername(), 
@@ -81,7 +71,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/newUser")
 	public ResponseEntity<UserDTO> newUser(@RequestBody UserDTO userDto){
-		System.out.println("HEELLO" + userDto.getName());
+		System.out.println("HEELLO " + userDto.getName());
 		System.out.println(userDto.toString());
 		if(userDetailService.newUser(userDto))
 			return ResponseEntity.ok(userDto);

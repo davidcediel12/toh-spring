@@ -6,12 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "USERS")
 @Data
 @AllArgsConstructor
+@Builder
 public class MyUser {
 	@Id
 	private String username;

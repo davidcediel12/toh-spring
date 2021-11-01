@@ -20,7 +20,7 @@ import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
 import com.tourofheroes.tourofheroes.services.HeroService;
 
 @RestController
-@CrossOrigin(origins = "*",  exposedHeaders = "**")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/heroes")
 public class HeroesController {
 	

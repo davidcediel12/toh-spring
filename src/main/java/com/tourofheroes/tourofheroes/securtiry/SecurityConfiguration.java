@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -38,12 +38,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Le decimos cuales son los criterios para aceptar requests
-		http.csrf().disable().authorizeRequests().antMatchers("/**/authenticate", "/**/newUser").permitAll()
-				.anyRequest().authenticated().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http
+		.cors().and() // Super importante, sin esto angular se tuesta
+		.csrf().disable()
+		.authorizeRequests().antMatchers("/**/authenticate", "/**/newUser").permitAll()
+		.anyRequest().authenticated().and().sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		http.cors(); // Super importante, sin esto angular se tuesta
+		
 	}
 
 	// This override is only for add the @Bean decorator
@@ -54,6 +57,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	
+	
+	/*
+	 * With this provider, it automatically apply the encoder when the user
+	 * sign in and compare with the ecrypted password in the DB
+	 */
 	@Bean
 	public AuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -64,7 +72,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		/*
+		 * This password encoding factory have BCrypt as a default encoder, 
+		 * but it supports several types of encoding, adding the word
+		 * of the algorithm before the encoded password, like this
+		 * {bcrypt} iudfhsih998387oi, 
+		 * We can change the supported encoders and the default one making this:
+		 * String encodingId = "scrypt";
+		 * Map<String, PasswordEncoder> encoders = new HashMap<>();
+		 * encoders.put(encodingId, new SCryptPasswordEncoder());
+		 * encoders.put("SHA-1", new MessageDigestPasswordEncoder("SHA-1"));
+		 * return new DelegatingPasswordEncoder(encodingId, encoders);
+		 */
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 }

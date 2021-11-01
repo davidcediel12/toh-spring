@@ -1,7 +1,5 @@
 package com.tourofheroes.tourofheroes.services;
 
-
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -20,7 +18,6 @@ import com.tourofheroes.tourofheroes.repositories.UserRepository;
 @Service
 public class AuthUsersService implements UserDetailsService {
 	
-	
 	@Autowired 
 	UserRepository userRepo;
 	@Autowired
@@ -38,16 +35,22 @@ public class AuthUsersService implements UserDetailsService {
 		UserDTO userDto = findById(username);
 		if(userDto == null)
 			throw new UsernameNotFoundException("User not found");
-		
-		
-		return new User(userDto.getUsername(), userDto.getPassword(), new ArrayList<>());
+		// TO DO: Add user roles
+		return User.withUsername(userDto.getUsername())
+				.password(userDto.getPassword())
+				.build();
 	}
 	
 	
 	public boolean newUser(UserDTO userDto) {
 		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		try {
-			userRepo.save(mapper.map(userDto, MyUser.class));
+			// Using Lombok builder 
+			userRepo.save(MyUser.builder()
+					.username(userDto.getUsername())
+					.password(userDto.getPassword())
+					.build()
+					);
 			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
