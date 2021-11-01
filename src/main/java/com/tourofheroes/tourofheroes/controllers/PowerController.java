@@ -19,7 +19,7 @@ import com.tourofheroes.tourofheroes.DTOs.PowerDTO;
 import com.tourofheroes.tourofheroes.services.PowerService;
 
 @Controller
-@CrossOrigin(origins = "*", , exposedHeaders = "token")
+@CrossOrigin(origins = "*")
 @RequestMapping("/power")
 public class PowerController {
 	

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tourofheroes.tourofheroes.DTOs.AuthenticationRequest;
 import com.tourofheroes.tourofheroes.DTOs.AuthenticationResponse;
+import com.tourofheroes.tourofheroes.DTOs.UserDTO;
 import com.tourofheroes.tourofheroes.securtiry.JWTUtil;
 import com.tourofheroes.tourofheroes.services.AuthUsersService;
 
@@ -24,31 +26,65 @@ import com.tourofheroes.tourofheroes.services.AuthUsersService;
 public class AuthenticationController {
 	
 	
+	// Service from spring
 	@Autowired
 	private AuthenticationManager authManager;
+	
+	// Service to get the users
 	@Autowired
 	private AuthUsersService userDetailService;
+	
+	// Service to manage the JWT (decode, build, get claims)
 	@Autowired
 	private JWTUtil jwtUtil;
+	
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<AuthenticationResponse> authenticate(
 			@RequestBody AuthenticationRequest auth) {
-		System.out.println("Im the controller");
+//		System.out.println("Im the controller");
 		try {
+			/*
+			 * Si le enviamos unas credenciales que estan malas, arrojara el 
+			 * error
+			 */
+			// No se si sea el lugar para codificar la password
+//			System.out.println(auth.getPassword());
+//			auth.setPassword(passwordEncoder.encode(auth.getPassword()));
+			System.out.println(auth.getPassword());
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.getUsername(), 
 							auth.getPassword()));
-
+			/*
+			 * Obtiene los detalles del usuario
+			 */
 			UserDetails userDetails = userDetailService.loadUserByUsername(
 					auth.getUsername());
-			
+			// Crea y envia el JWT
 			String jwt = jwtUtil.generateToken(userDetails);
 			return ResponseEntity.ok(new AuthenticationResponse(jwt));
+			
+			
 		}catch (BadCredentialsException e) {
+			/*
+			 * Si se otorgaron unas credenciales erroneas, que arroje un 403
+			 */
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		
-		
+		}	
+	}
+	
+	
+	@PostMapping("/newUser")
+	public ResponseEntity<UserDTO> newUser(@RequestBody UserDTO userDto){
+		System.out.println("HEELLO" + userDto.getName());
+		System.out.println(userDto.toString());
+		if(userDetailService.newUser(userDto))
+			return ResponseEntity.ok(userDto);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }
