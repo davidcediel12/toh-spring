@@ -3,6 +3,7 @@ package com.tourofheroes.tourofheroes.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "POWERS")
+@Cacheable
 public class Power {
 	
 	@Id

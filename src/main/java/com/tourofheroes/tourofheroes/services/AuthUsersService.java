@@ -1,5 +1,6 @@
 package com.tourofheroes.tourofheroes.services;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -38,24 +39,22 @@ public class AuthUsersService implements UserDetailsService {
 		// TO DO: Add user roles
 		return User.withUsername(userDto.getUsername())
 				.password(userDto.getPassword())
+				.authorities(new ArrayList<>())
 				.build();
 	}
 	
 	
 	public boolean newUser(UserDTO userDto) {
 		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		try {
-			// Using Lombok builder 
-			userRepo.save(MyUser.builder()
-					.username(userDto.getUsername())
-					.password(userDto.getPassword())
-					.build()
-					);
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
+		if(userRepo.existsById(userDto.getUsername()))
 			return false;
-		}
+		// Using Lombok builder 
+		userRepo.save(MyUser.builder()
+			.username(userDto.getUsername())
+			.password(userDto.getPassword())
+			.build()
+			);
+		return true;
 	}
 	
 	public UserDTO findById(String username) {

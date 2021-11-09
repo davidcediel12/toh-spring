@@ -47,9 +47,11 @@ public class AuthenticationController {
 			 * error
 			 */
 			System.out.println(auth.getPassword());
+			System.out.println("EVERITHING IS OK1");
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.getUsername(), 
 							auth.getPassword()));
+			System.out.println("EVERITHING IS OK1");
 			/*
 			 * Obtiene los detalles del usuario
 			 */
@@ -57,6 +59,7 @@ public class AuthenticationController {
 					auth.getUsername());
 			// Crea y envia el JWT
 			String jwt = jwtUtil.generateToken(userDetails);
+			System.out.println("EVERITHING IS OK");
 			return ResponseEntity.ok(new AuthenticationResponse(jwt));
 			
 			
@@ -64,14 +67,14 @@ public class AuthenticationController {
 			/*
 			 * Si se otorgaron unas credenciales erroneas, que arroje un 403
 			 */
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			System.out.println("BAD CREDENTIALS");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}	
 	}
 	
 	
 	@PostMapping("/newUser")
 	public ResponseEntity<UserDTO> newUser(@RequestBody UserDTO userDto){
-		System.out.println("HEELLO " + userDto.getName());
 		System.out.println(userDto.toString());
 		if(userDetailService.newUser(userDto))
 			return ResponseEntity.ok(userDto);

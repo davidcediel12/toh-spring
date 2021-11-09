@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -84,7 +85,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 * encoders.put("SHA-1", new MessageDigestPasswordEncoder("SHA-1"));
 		 * return new DelegatingPasswordEncoder(encodingId, encoders);
 		 */
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		
+		// It gives me an error.
+//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		
+		
+		return new BCryptPasswordEncoder();
+		
+		
 	}
 
 }

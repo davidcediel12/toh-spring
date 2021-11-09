@@ -2,6 +2,7 @@ package com.tourofheroes.tourofheroes.securtiry;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,20 @@ import io.jsonwebtoken.SignatureException;
 @Service
 public class JWTUtil {
 	
-	private static final String KEY = "uniqueKey";
+	@Value("${jwtSecret}")
+	private  String KEY = "uniqueKey";
+	@Value("${jwtExpirationMs}")
+	private  Integer jwtExpirationMs = 1000 * 60 * 60 * 2;
+	@Value("${jwtRefreshExpirationMs}")
+	private  Integer jwtRefreshExpirationMs = 1000 * 60 * 60 * 3;
 	
 	public String generateToken(UserDetails userDetails) {
+		System.out.println("Exp " + jwtExpirationMs);
+		System.out.println("Exp " + jwtRefreshExpirationMs);
+		System.out.println("Key " + KEY);
 		return Jwts.builder().setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
+				.setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS256, KEY).compact();
 	}
 	

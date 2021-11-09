@@ -32,7 +32,7 @@ public class JwtFilterRequest extends OncePerRequestFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-//		System.out.println("Hello im the filter");
+		System.out.println("Hello im the filter");
 		
 		// Obtaining the header from the incoming request
 		String authHeader = request.getHeader("Authorization");
@@ -51,13 +51,15 @@ public class JwtFilterRequest extends OncePerRequestFilter {
 					 *  Le damos los roles (aunque no los hayamos manejado)
 					 */
 					UsernamePasswordAuthenticationToken authToken = 
-							new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+							new UsernamePasswordAuthenticationToken(
+									userDetails, null, userDetails.getAuthorities());
 					
 					/*
 					 *  Le damos los detalles de la conexion al token como
 					 *  Navegador, horario, etc.
 					 */
-					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					authToken.setDetails(
+							new WebAuthenticationDetailsSource().buildDetails(request));
 					
 					/*
 					 *  Agregamos la autenticacion para que no tenga que pasar por todo 
