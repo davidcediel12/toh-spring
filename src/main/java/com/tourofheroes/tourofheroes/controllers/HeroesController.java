@@ -33,6 +33,7 @@ public class HeroesController {
 	
 	@GetMapping("/getAll")
 	public ResponseEntity<List<HeroDTO>> getAllHeroes(){
+		System.out.println("HELLO IM THE CONTROLLER");
 		return ResponseEntity.ok(heroService.getAll());
 	}
 

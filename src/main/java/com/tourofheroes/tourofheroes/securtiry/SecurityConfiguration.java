@@ -42,7 +42,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 		.cors().and() // Super importante, sin esto angular se tuesta
 		.csrf().disable()
-		.authorizeRequests().antMatchers("/**/authenticate", "/**/newUser").permitAll()
+		.authorizeRequests()
+		.antMatchers("/**/authenticate", "/**/newUser").permitAll()
+		.antMatchers("/**/modifyName/**", "**/deleteHero/**").hasAuthority("ADMIN")
 		.anyRequest().authenticated().and().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

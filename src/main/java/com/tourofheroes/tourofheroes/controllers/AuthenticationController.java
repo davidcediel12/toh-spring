@@ -46,12 +46,9 @@ public class AuthenticationController {
 			 * Si le enviamos unas credenciales que estan malas, arrojara el 
 			 * error
 			 */
-			System.out.println(auth.getPassword());
-			System.out.println("EVERITHING IS OK1");
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(auth.getUsername(), 
 							auth.getPassword()));
-			System.out.println("EVERITHING IS OK1");
 			/*
 			 * Obtiene los detalles del usuario
 			 */
@@ -75,7 +72,6 @@ public class AuthenticationController {
 	
 	@PostMapping("/newUser")
 	public ResponseEntity<UserDTO> newUser(@RequestBody UserDTO userDto){
-		System.out.println(userDto.toString());
 		if(userDetailService.newUser(userDto))
 			return ResponseEntity.ok(userDto);
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
