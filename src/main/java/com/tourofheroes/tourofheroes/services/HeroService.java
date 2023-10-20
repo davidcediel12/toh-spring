@@ -22,8 +22,15 @@ public class HeroService {
     private final ModelMapper mapper;
 
 
-    public List<HeroDTO> getAll() {
-        List<Hero> heroes = heroRepo.findByOrderByIdAsc();
+    public List<HeroDTO> getHeroes(String name) {
+
+        List<Hero> heroes;
+        if (name != null) {
+            heroes = heroRepo.findByNameStartsWithIgnoreCase(name);
+        } else {
+            heroes = heroRepo.findByOrderByIdAsc();
+        }
+
         List<HeroDTO> heroesDTO = new ArrayList<>();
         for (Hero hero : heroes) {
             heroesDTO.add(mapper.map(hero, HeroDTO.class));
@@ -68,7 +75,7 @@ public class HeroService {
         // Adding the power if it has one
         if (StringUtils.hasLength(heroDto.getPowerName())) {
             hero.setPower(powerRepo.findByName(heroDto.getPowerName())
-                    .get());
+                    .orElseThrow(() -> new IllegalStateException("Power not found")));
         }
 
         heroRepo.save(hero);

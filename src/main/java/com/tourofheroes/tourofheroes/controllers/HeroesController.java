@@ -21,8 +21,9 @@ public class HeroesController {
 
 
     @GetMapping
-    public ResponseEntity<List<HeroDTO>> getAllHeroes() {
-        return ResponseEntity.ok(heroService.getAll());
+    public ResponseEntity<List<HeroDTO>> getHeroes(@RequestParam(required = false) String heroName) {
+
+        return ResponseEntity.ok(heroService.getHeroes(heroName));
     }
 
 
@@ -65,10 +66,5 @@ public class HeroesController {
             return new ResponseEntity<>("Hero not found", HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping
-    public ResponseEntity<List<HeroDTO>> findByName(@RequestParam String name) {
-        log.debug(name);
-        return ResponseEntity.ok(heroService.findByPartOfName(name));
-    }
 }
 
