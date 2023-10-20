@@ -1,6 +1,6 @@
 package com.tourofheroes.tourofheroes.services;
 
-import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
+import com.tourofheroes.tourofheroes.dto.HeroDTO;
 import com.tourofheroes.tourofheroes.model.Hero;
 import com.tourofheroes.tourofheroes.repositories.HeroRepository;
 import com.tourofheroes.tourofheroes.repositories.PowerRepository;

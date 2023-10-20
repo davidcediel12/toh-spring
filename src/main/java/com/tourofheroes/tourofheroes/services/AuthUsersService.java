@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tourofheroes.tourofheroes.DTOs.UserDTO;
+import com.tourofheroes.tourofheroes.dto.UserDTO;
 import com.tourofheroes.tourofheroes.model.MyUser;
 import com.tourofheroes.tourofheroes.model.UserRole;
 import com.tourofheroes.tourofheroes.repositories.UserRepository;

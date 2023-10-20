@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.tourofheroes.tourofheroes.DTOs.PowerDTO;
+import com.tourofheroes.tourofheroes.dto.PowerDTO;
 import com.tourofheroes.tourofheroes.model.Power;
 import com.tourofheroes.tourofheroes.repositories.PowerRepository;
 

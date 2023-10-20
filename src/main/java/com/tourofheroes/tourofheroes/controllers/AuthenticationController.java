@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tourofheroes.tourofheroes.DTOs.AuthenticationRequest;
-import com.tourofheroes.tourofheroes.DTOs.AuthenticationResponse;
-import com.tourofheroes.tourofheroes.DTOs.UserDTO;
+import com.tourofheroes.tourofheroes.dto.AuthenticationRequest;
+import com.tourofheroes.tourofheroes.dto.AuthenticationResponse;
+import com.tourofheroes.tourofheroes.dto.UserDTO;
 import com.tourofheroes.tourofheroes.securtiry.JWTUtil;
 import com.tourofheroes.tourofheroes.services.AuthUsersService;
 

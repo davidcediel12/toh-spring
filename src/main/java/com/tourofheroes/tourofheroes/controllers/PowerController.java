@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.tourofheroes.tourofheroes.DTOs.PowerDTO;
+import com.tourofheroes.tourofheroes.dto.PowerDTO;
 import com.tourofheroes.tourofheroes.services.PowerService;
 
 @Controller

@@ -1,6 +1,6 @@
 package com.tourofheroes.tourofheroes.controllers;
 
-import com.tourofheroes.tourofheroes.DTOs.HeroDTO;
+import com.tourofheroes.tourofheroes.dto.HeroDTO;
 import com.tourofheroes.tourofheroes.services.HeroService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

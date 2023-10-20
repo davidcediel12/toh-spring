@@ -1,4 +1,4 @@
-package com.tourofheroes.tourofheroes.DTOs;
+package com.tourofheroes.tourofheroes.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
