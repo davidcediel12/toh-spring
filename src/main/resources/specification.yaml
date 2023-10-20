@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+    Specification to manage the resources needed by the tour of heroes
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080/tour-of-heroes
+    description: local server
+
+tags:
+  - name: hero
+    description: Everything about heroes
+  - name: power
+    description: Access to available superpowers
+  - name: user
+    description: Operations about user
+
+
+paths:
+  /heroes:
+    get:
+      tags:
+        - hero
+      summary: Obtain heroes
+      description: |-
+        Obtain heroes based on the filters
+      operationId: getHeroes
+      parameters:
+        - in:  query
+          name: heroName
+          schema:
+            type: string
+          required: false
+          description: Hero name
+
+      responses:
+        '200':
+          description: Heroes retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hero'
+        '204':
+          description: Heroes not found
+    post:
+      tags:
+        - hero
+      summary: Add a new hero
+      description: Add a new hero
+      operationId: postHero
+      requestBody:
+        description: Hero to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+  /heroes/{id}:
+    get:
+      tags:
+        - hero
+      summary: Obtain hero by id
+      description: |-
+        Obtain hero by id
+      operationId: getHero
+      parameters:
+        - in:  path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hero id
+
+      responses:
+        '200':
+          description: Hero retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+        '204':
+          description: Hero not found
+    patch:
+      tags:
+        - hero
+      summary: Modify existing hero
+      description: Modify existing hero
+      operationId: patchHero
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: hero id to modify
+          schema:
+            type: string
+          example: 5
+      requestBody:
+        description: Modified hero
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+    delete:
+      tags:
+        - hero
+      summary: Delete hero by id
+      description: |-
+        Obtain heroes based on the filters
+      operationId: deleteHero
+      parameters:
+        - in:  path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hero id
+
+      responses:
+        '200':
+          description: Hero deleted successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Hero deleted"
+        '404':
+          description: Hero not found
+
+components:
+  schemas:
+    Hero:
+      title: Hero
+      description: hero response
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          description: hero id
+          example: 1
+        name:
+          type: string
+          description: hero name
+          example: "Batman"
+        alterEgo:
+          type: string
+          description: hero alter ego
+          example: "Joker"
+        powerName:
+          type: string
+          description: hero power name
+          example: "Money"
+        powerId:
+          type: integer
+          description: hero power id
+          example: 10
