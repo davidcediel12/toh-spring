@@ -9,11 +9,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "HEROES")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Hero {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="idHeroGenerator")
@@ -40,62 +46,9 @@ public class Hero {
 	// FUTURE IMPROVEMENT: MAKE THIS COLUMN A JOIN COLUMN OF THIS TABLE
 	@Column(name = "ALTER_EGO", length = 30, nullable = true)
 	private String alterEgo;
-	
-	public Hero() {}
-	
+
 	public Hero(String name, String alterEgo) {
 		this.name = name;
 		this.alterEgo = alterEgo;
 	}
-	
-	public Hero(Integer id, String name, String alterEgo) {
-		this.id = id;
-		this.name = name;
-		this.alterEgo = alterEgo;
-	}
-	
-	public Hero(Integer id, String name, String alterEgo, Power power) {
-		this.id = id;
-		this.name = name;
-		this.alterEgo = alterEgo;
-		this.power = power;
-	}
-	
-	
-	
-	public String getAlterEgo() {
-		return alterEgo;
-	}
-
-	public void setAlterEgo(String alterEgo) {
-		this.alterEgo = alterEgo;
-	}
-
-	public Power getPower() {
-		return power;
-	}
-
-	public void setPower(Power power) {
-		this.power = power;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
-	
 }
