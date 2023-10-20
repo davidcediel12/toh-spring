@@ -1,19 +1,10 @@
 package com.tourofheroes.tourofheroes.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "HEROES")
@@ -22,16 +13,7 @@ import org.hibernate.annotations.Parameter;
 @NoArgsConstructor
 public class Hero {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="idHeroGenerator")
-	@GenericGenerator(
-	        name = "idHeroGenerator",
-	        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-	        parameters = {
-	                @Parameter(name = "sequence_name", value = "WIKI_SEQUENCE"),
-	                @Parameter(name = "initial_value", value = "1000"),
-	                @Parameter(name = "increment_size", value = "1")
-	        }
-	)
+	@GeneratedValue
 	@Column(name = "ID")
 	private Integer id;
 	
