@@ -88,13 +88,4 @@ public class HeroService {
         heroRepo.delete(heroOpt.get());
         return true;
     }
-
-
-    public List<HeroDTO> findByPartOfName(String name) {
-        List<Hero> heroes = heroRepo.findByNameStartsWithIgnoreCase(name);
-        List<HeroDTO> heroesDto = new ArrayList<>();
-        for (Hero hero : heroes)
-            heroesDto.add(mapper.map(hero, HeroDTO.class));
-        return heroesDto;
-    }
 }
