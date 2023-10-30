@@ -22,9 +22,9 @@ public class HeroesController {
 
 
     @GetMapping
-    public ResponseEntity<List<HeroDTO>> getHeroes(@RequestParam(required = false) String heroName) {
+    public ResponseEntity<List<HeroDTO>> getHeroes(@RequestParam(required = false) String name) {
 
-        return ResponseEntity.ok(heroService.getHeroes(heroName));
+        return ResponseEntity.ok(heroService.getHeroes(name));
     }
 
 
