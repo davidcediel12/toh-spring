@@ -78,8 +78,7 @@ public class HeroService {
                     .orElseThrow(() -> new IllegalStateException("Power not found")));
         }
 
-        heroRepo.save(hero);
-        return heroDto;
+        return mapper.map(heroRepo.save(hero), HeroDTO.class);
     }
 
     public boolean deleteHero(Integer id) {
