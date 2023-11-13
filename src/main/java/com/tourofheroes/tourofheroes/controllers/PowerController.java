@@ -20,50 +20,51 @@ import com.tourofheroes.tourofheroes.services.PowerService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/power")
+@RequestMapping("/powers")
 public class PowerController {
-	
-	@Autowired
-	private PowerService powerService;
-	
-	@GetMapping("/getAll")
-	public ResponseEntity<List<PowerDTO>> getAllPowers(){
-		List<PowerDTO> powersDto = powerService.getPowers();
-		if(powersDto.isEmpty())
-			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-		return ResponseEntity.ok(powersDto);
-	}
-	
-	@GetMapping("/findPower/{id}")
-	public ResponseEntity<PowerDTO> findById(@PathVariable Integer id){
-		PowerDTO powerDto = powerService.findById(id);
-		if(powerDto == null)
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		return ResponseEntity.ok(powerDto);
-	}
-	
-	@PatchMapping("/modifyName/{id}")
-	public ResponseEntity<String> modifyName(@PathVariable Integer id, 
-									@RequestBody PowerDTO powerDto) {
-		
-		if(powerService.updatePowerName(id, powerDto))
-			return ResponseEntity.ok("Updated Succesfully");
-		else
-			return new ResponseEntity<>("Error updating", HttpStatus.BAD_REQUEST);
-	}
-	
-	@PostMapping("/newPower")
-	public ResponseEntity<PowerDTO> newPower(@RequestBody PowerDTO powerDto){
-		return ResponseEntity.ok(powerService.newPower(powerDto));
-	}
-	
-	
-	@DeleteMapping("/deletePower/{id}")
-	public ResponseEntity<String> deleteHero(@PathVariable Integer id){
-		if(powerService.deletePower(id))
-			return ResponseEntity.ok("Deletion successfully");
-		else
-			return new ResponseEntity<String>("Deletion went wrong", HttpStatus.BAD_REQUEST);
-	}
+
+    @Autowired
+    private PowerService powerService;
+
+    @GetMapping
+    public ResponseEntity<List<PowerDTO>> getAllPowers() {
+        List<PowerDTO> powersDto = powerService.getPowers();
+        if (powersDto.isEmpty())
+            return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(powersDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PowerDTO> findById(@PathVariable Integer id) {
+        PowerDTO powerDto = powerService.findById(id);
+        if (powerDto == null)
+            return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(powerDto);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> modifyName(@PathVariable Integer id,
+                                             @RequestBody PowerDTO powerDto) {
+
+        if (powerService.updatePowerName(id, powerDto))
+            return ResponseEntity.ok("Updated Succesfully");
+        else
+            return new ResponseEntity<>("Error updating", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping
+    public ResponseEntity<PowerDTO> newPower(@RequestBody PowerDTO powerDto) {
+        return ResponseEntity.ok(powerService.newPower(powerDto));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteHero(@PathVariable Integer id) {
+        if (powerService.deletePower(id)) {
+            return ResponseEntity.ok("Deletion successfully");
+        } else {
+            return new ResponseEntity<>("Deletion went wrong", HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
